@@ -2,10 +2,10 @@
 
 Tablero tablero = new Tablero();
 string? input = "";
-while (input != "chau")
+while (input != "fin")
 {
     tablero.MostrarTerrenoEnConsolaConColores();
-    Console.WriteLine("Escribe 'chau' para salir. O awsd para moverte");
+    Console.WriteLine("Escribe 'fin' para salir. O awsd para moverte");
     input = Console.ReadLine();
     switch (input)
     {
