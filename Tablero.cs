@@ -96,16 +96,15 @@ namespace Mapa
             {
                 return;
             }
-            if (this.EsPosicionCaminable(nuevaX, nuevaY) == true)
+            if (this.EsPosicionCaminable(this.Personaje, nuevaX, nuevaY) == true)
             {
                 this.Personaje.Punto.X = nuevaX;
                 this.Personaje.Punto.Y = nuevaY;
-
             }
 
         }
 
-        private bool EsPosicionCaminable(int x, int y)
+        private bool EsPosicionCaminable(Personaje personaje, int x, int y)
         {
             if (this.AfueraDeTablero(x, y))
             {
@@ -113,7 +112,8 @@ namespace Mapa
             }
 
             int terrenoCasilla = this.Terreno[y, x];
-            return terrenoCasilla == 1;
+            return terrenoCasilla == 1 || 
+                (terrenoCasilla == 0 && personaje.PuedeFlotar());
         }
 
         private bool AfueraDeTablero(int x, int y)
@@ -133,6 +133,19 @@ namespace Mapa
             }
 
             return null;
+        }
+
+        public bool RecogerRecurso()
+        {
+            Recurso? recurso = this.BuscarRecurso(this.Personaje.Punto.X, this.Personaje.Punto.Y);
+            if (recurso != null)
+            {
+                this.Personaje.AgregarRecursoEnMochila(recurso);
+                this.Recursos.Remove(recurso);
+                return true;
+            }
+
+            return false;
         }
 
         public void MostrarTerrenoEnConsolaConColores()

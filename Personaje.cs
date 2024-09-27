@@ -11,15 +11,28 @@ namespace Mapa
         private static int UltimoId {  get; set; }
         public int IdPersonaje { get; set; }
         public Punto Punto { get; set; }
+        public List<Recurso> Mochila { get; set; }
         public Personaje(int X, int Y) {
             this.IdPersonaje = Personaje.NuevoId();
             this.Punto = new Punto(X, Y);
+            this.Mochila = new List<Recurso>();
         }
 
         private static int NuevoId()
         {
             Personaje.UltimoId += 1;
             return Personaje.UltimoId;
+        }
+
+        public bool AgregarRecursoEnMochila(Recurso recurso)
+        {
+            this.Mochila.Add(recurso);
+            return true;
+        }
+
+        public bool PuedeFlotar()
+        {
+            return this.Mochila.Count > 5;
         }
     }
 }
