@@ -51,7 +51,7 @@
             this.CrearSuperficie(this.Terreno.GetLength(0) / 5, 1);
 
             // Creo montañas
-            this.CrearSuperficie(this.Terreno.GetLength(0) / 7, 2);
+            this.CrearSuperficie(this.Terreno.GetLength(0) / 4, 2);
         }
 
         public void CrearSuperficie(int tamano, int tipoTerreno)
@@ -70,16 +70,37 @@
 
         public void MoverPersonaje(int masX, int masY)
         {
-            if (
-                this.Personaje.Punto.X + masX < 0 || this.Personaje.Punto.X + masX >= this.Terreno.GetLength(0) ||
-                this.Personaje.Punto.Y + masY < 0 || this.Personaje.Punto.Y + masY >= this.Terreno.GetLength(1)
-                )
+            int nuevaX = this.Personaje.Punto.X + masX;
+            int nuevaY = this.Personaje.Punto.Y + masY;
+
+            if (this.AfueraDeTablero(nuevaX, nuevaY))
             {
                 return;
             }
+            if (this.EsPosicionCaminable(nuevaX, nuevaY) == true)
+            {
+                this.Personaje.Punto.X = nuevaX;
+                this.Personaje.Punto.Y = nuevaY;
 
-            this.Personaje.Punto.X += masX;
-            this.Personaje.Punto.Y += masY;
+            }
+
+        }
+
+        private bool EsPosicionCaminable(int x, int y)
+        {
+            if (this.AfueraDeTablero(x, y))
+            {
+                return false;
+            }
+
+            int terrenoCasilla = this.Terreno[y, x];
+            return terrenoCasilla == 1;
+        }
+
+        private bool AfueraDeTablero(int x, int y)
+        {
+            return x < 0 || x >= this.Terreno.GetLength(0) ||
+                y < 0 || y >= this.Terreno.GetLength(1);
         }
 
         public void MostrarTerrenoEnConsolaConColores()
