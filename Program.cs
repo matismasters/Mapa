@@ -58,5 +58,15 @@ while (input != "fin")
 //  Tendras que crear una propiedad mochila en Personaje para guardar los recursos.
 //  Tendras que tener una propiedad Recursos en Tablero para guardar los recursos.
 
+// Ejercicio 5: Agregar el recurso "Cuerda" al terreno.
+//  Tendras que poder recogerlo y enviarlo a la mochila
 
+// Ejercicio 6: Si tienes al menos 2 cuerdas en la mochila, puedes trepar.
+
+// Ejercicio 7: Aumentar la cantidad de recursos en el mapa
+// Ejercicio 8: Achicar la montaña
+// Ejercicio 9: Hacer isla del tesoro.
+//   La isla es una unica casilla de montaña en el medio del agua.
+// Ejercicio 10: Agregar un recurso "Tesoro" en la isla.
+//   Si el personaje se para sobre el tesoro, gana el juego.
 
