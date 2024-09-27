@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mapa
+﻿namespace Mapa
 {
     public class Tablero
     {
         public int[,] Terreno { get; set; }
         public List<Punto> Puntos { get; set; }
 
-        public List<Personaje> Personajes { get; set; }
+        public Personaje Personaje { get; set; }
 
         public Tablero()
         {
             this.Puntos = new List<Punto>();
-            this.Personajes = new List<Personaje>();
             this.GenerarTerreno();
             this.InstanciarPersonaje();
         }
@@ -29,7 +22,7 @@ namespace Mapa
                 spawnPoint[1]
             );
 
-            this.Personajes.Add( personaje );
+            this.Personaje = personaje;
         }
 
         private int[] PosicionCaminable()
@@ -38,7 +31,7 @@ namespace Mapa
             int x = 0;
             int y = 0;
 
-            while (this.Terreno[x, y] != 1)
+            while (this.Terreno[y, x] != 1)
             {
                 y = new Random().Next(0, this.Terreno.GetLength(0));
                 x = new Random().Next(0, this.Terreno.GetLength(1));
@@ -51,11 +44,14 @@ namespace Mapa
 
         private void GenerarTerreno()
         {
-            this.Terreno = new int[15, 15];
-            this.CrearSuperficie(this.Terreno.GetLength(0) / 5, 1);
-            this.CrearSuperficie(this.Terreno.GetLength(0) / 5, 1);
-            this.CrearSuperficie(this.Terreno.GetLength(0) / 7, 2);
+            this.Terreno = new int[25, 25];
 
+            // Creo tierra
+            this.CrearSuperficie(this.Terreno.GetLength(0) / 5, 1);
+            this.CrearSuperficie(this.Terreno.GetLength(0) / 5, 1);
+
+            // Creo montañas
+            this.CrearSuperficie(this.Terreno.GetLength(0) / 7, 2);
         }
 
         public void CrearSuperficie(int tamano, int tipoTerreno)
@@ -72,32 +68,55 @@ namespace Mapa
             }
         }
 
-        private string MostrarCasilla(int x, int y)
+        public void MoverPersonaje(int masX, int masY)
         {
-            foreach(Personaje personaje in this.Personajes)
-            {
-                if (
-                    personaje.Punto.X == x &&
-                    personaje.Punto.Y == y
+            if (
+                this.Personaje.Punto.X + masX < 0 || this.Personaje.Punto.X + masX >= this.Terreno.GetLength(0) ||
+                this.Personaje.Punto.Y + masY < 0 || this.Personaje.Punto.Y + masY >= this.Terreno.GetLength(1)
                 )
-                {
-                    return "P\t";
-                }
+            {
+                return;
             }
 
-            return this.Terreno[x, y] + "\t";
+            this.Personaje.Punto.X += masX;
+            this.Personaje.Punto.Y += masY;
         }
 
-        public void MostrarTerreno()
+        public void MostrarTerrenoEnConsolaConColores()
         {
-            Console.WriteLine("Terreno:");
-            for (int i = 0; i < this.Terreno.GetLength(0); i++) 
+            for (int i = 0; i < this.Terreno.GetLength(0); i++)
             {
-                for (int j = 0; j < this.Terreno.GetLength(1); j++) 
+                for (int j = 0; j < this.Terreno.GetLength(1); j++)
                 {
-                    Console.Write(this.MostrarCasilla(i, j));
+                    // Comprobar si hay un personaje en la casilla
+                    bool personajePresente = false;
+                    if (this.Personaje.Punto.X == j && this.Personaje.Punto.Y == i)
+                    {
+                        Console.BackgroundColor = ConsoleColor.Red; // Rojo para personajes
+                        personajePresente = true;
+                    }
+
+                    if (!personajePresente)
+                    {
+                        // Colorear el terreno según el tipo
+                        switch (this.Terreno[i, j])
+                        {
+                            case 0:
+                                Console.BackgroundColor = ConsoleColor.Blue; // Azul para no caminables
+                                break;
+                            case 1:
+                                Console.BackgroundColor = ConsoleColor.Green; // Verde para caminables
+                                break;
+                            case 2:
+                                Console.BackgroundColor = ConsoleColor.DarkGray; // Gris oscuro para terreno especial
+                                break;
+                        }
+                    }
+
+                    Console.Write("  "); // Espacio para representar la casilla
                 }
                 Console.WriteLine();
+                Console.ResetColor(); // Restablecer los colores por cada línea
             }
         }
     }
