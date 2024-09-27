@@ -5,6 +5,13 @@ string? input = "";
 while (input != "fin")
 {
     tablero.MostrarTerrenoEnConsolaConColores();
+    Console.WriteLine(tablero.Personaje.Punto.X + " " + tablero.Personaje.Punto.Y);
+    Console.WriteLine("Recursos: " + tablero.Recursos.Count);
+    Recurso? recurso = tablero.BuscarRecurso(tablero.Personaje.Punto.X, tablero.Personaje.Punto.Y);
+    if (recurso != null)
+    {
+        Console.WriteLine("Recurso encontrado: " + recurso.Tipo);
+    }
     Console.WriteLine("Escribe 'fin' para salir. O awsd para moverte");
     input = Console.ReadLine();
     switch (input)

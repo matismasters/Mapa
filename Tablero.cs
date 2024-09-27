@@ -1,17 +1,36 @@
-﻿namespace Mapa
+﻿using System.Runtime.CompilerServices;
+
+namespace Mapa
 {
     public class Tablero
     {
         public int[,] Terreno { get; set; }
         public List<Punto> Puntos { get; set; }
-
         public Personaje Personaje { get; set; }
-
+        public List<Recurso> Recursos { get; set; }  
         public Tablero()
         {
             this.Puntos = new List<Punto>();
+            this.Recursos = new List<Recurso>();
             this.GenerarTerreno();
             this.InstanciarPersonaje();
+            this.GenerarRecursos();
+        }
+
+        private void GenerarRecursos()
+        {
+            int cantidadRecursos = new Random().Next(5, 10);
+            for (int i = 0; i < cantidadRecursos; i++)
+            {
+                int[] spawnPoint = this.PosicionCaminable();
+                Recurso recurso = new Recurso(
+                    spawnPoint[0],
+                    spawnPoint[1],
+                    "Madera"
+                );
+
+                this.Recursos.Add(recurso);
+            }
         }
 
         private void InstanciarPersonaje()
@@ -103,12 +122,32 @@
                 y < 0 || y >= this.Terreno.GetLength(1);
         }
 
+        public Recurso? BuscarRecurso(int x, int y)
+        {
+            foreach (Recurso recurso in this.Recursos)
+            {
+                if (recurso.Punto.X == x && recurso.Punto.Y == y)
+                {
+                    return recurso;
+                }
+            }
+
+            return null;
+        }
+
         public void MostrarTerrenoEnConsolaConColores()
         {
             for (int i = 0; i < this.Terreno.GetLength(0); i++)
             {
                 for (int j = 0; j < this.Terreno.GetLength(1); j++)
                 {
+                    // Comprobar si hay un recurso en la casilla
+                    Recurso? recurso = this.BuscarRecurso(j, i);
+                    if (recurso != null)
+                    {
+                        Console.BackgroundColor = ConsoleColor.DarkYellow; // Amarillo para recursos
+                    }
+
                     // Comprobar si hay un personaje en la casilla
                     bool personajePresente = false;
                     if (this.Personaje.Punto.X == j && this.Personaje.Punto.Y == i)
@@ -117,7 +156,7 @@
                         personajePresente = true;
                     }
 
-                    if (!personajePresente)
+                    if (personajePresente == false && recurso == null)
                     {
                         // Colorear el terreno según el tipo
                         switch (this.Terreno[i, j])
