@@ -74,11 +74,12 @@ namespace Mapa
             this.Terreno = new int[25, 25];
 
             // Creo tierra
-            this.CrearSuperficie(this.Terreno.GetLength(0) / 5, 1);
-            this.CrearSuperficie(this.Terreno.GetLength(0) / 5, 1);
+            this.CrearSuperficie(this.Terreno.GetLength(0) / 4, 1);
+            this.CrearSuperficie(this.Terreno.GetLength(0) / 4, 1);
 
             // Creo montañas
-            this.CrearSuperficie(this.Terreno.GetLength(0) / 4, 2);
+            this.CrearSuperficie(this.Terreno.GetLength(0) / 7, 2);
+            this.CrearSuperficie(this.Terreno.GetLength(0) / 7, 2);
         }
 
         public void CrearSuperficie(int tamano, int tipoTerreno)
@@ -166,7 +167,13 @@ namespace Mapa
                     Recurso? recurso = this.BuscarRecurso(j, i);
                     if (recurso != null)
                     {
-                        Console.BackgroundColor = ConsoleColor.DarkYellow; // Amarillo para recursos
+                        if (recurso.Tipo == "Madera")
+                        {
+                            Console.BackgroundColor = ConsoleColor.DarkYellow;
+                        } else if (recurso.Tipo == "Cuerda")
+                        {
+                            Console.BackgroundColor = ConsoleColor.DarkGreen;
+                        }
                     }
 
                     // Comprobar si hay un personaje en la casilla
