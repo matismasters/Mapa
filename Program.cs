@@ -1,8 +1,9 @@
 ﻿using Mapa;
 
 Tablero tablero = new Tablero();
+int movimientos = 0;
 string? input = "";
-while (input != "fin")
+while (input != "fin" && !tablero.FinDelJuego())
 {
     tablero.MostrarTerrenoEnConsolaConColores();
     Console.WriteLine("Recursos: " + tablero.Recursos.Count);
@@ -39,18 +40,34 @@ while (input != "fin")
             break;
         case "w":
             tablero.MoverPersonaje(0, -1);
+            movimientos++;
             break;
         case "a":
             tablero.MoverPersonaje(-1, 0);
+            movimientos++;
             break;
         case "s":
             tablero.MoverPersonaje(0, 1);
+            movimientos++;
             break;
         case "d":
             tablero.MoverPersonaje(1, 0);
+            movimientos++;
+            break;
+        case "reset":
+            tablero = new Tablero();
             break;
     }
     Console.Clear();
+}
+
+if (tablero.FinDelJuego())
+{
+    Console.WriteLine($"Ganaste! en {movimientos} movimientos");
+}
+else
+{
+    Console.WriteLine("Perdiste!");
 }
 
 // Ejercicio 1: Actualmente el personaje puede aparecer sobre una montaña!

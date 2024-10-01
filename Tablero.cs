@@ -17,6 +17,11 @@ namespace Mapa
             this.GenerarRecursos();
         }
 
+        public bool FinDelJuego()
+        {
+            return this.Personaje.CantidadRecurso("Tesoro") > 0;
+        }
+
         private void GenerarRecursos()
         {
             int cantidadRecursos = new Random().Next(5, 10);
@@ -39,6 +44,9 @@ namespace Mapa
                 this.Recursos.Add(madera);
                 this.Recursos.Add(cuerda);
             }
+
+            Recurso tesoro = new Recurso(1,1,"Tesoro");
+            this.Recursos.Add(tesoro);
         }
 
         private void InstanciarPersonaje()
@@ -80,6 +88,8 @@ namespace Mapa
             // Creo montañas
             this.CrearSuperficie(this.Terreno.GetLength(0) / 7, 2);
             this.CrearSuperficie(this.Terreno.GetLength(0) / 4, 2);
+
+            this.Terreno[1, 1] = 2;
         }
 
         public void CrearSuperficie(int tamano, int tipoTerreno)
@@ -174,6 +184,9 @@ namespace Mapa
                         } else if (recurso.Tipo == "Cuerda")
                         {
                             Console.BackgroundColor = ConsoleColor.DarkGreen;
+                        } else if (recurso.Tipo == "Tesoro")
+                        {
+                            Console.BackgroundColor = ConsoleColor.DarkMagenta;
                         }
                     }
 
