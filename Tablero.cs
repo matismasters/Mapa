@@ -22,14 +22,22 @@ namespace Mapa
             int cantidadRecursos = new Random().Next(5, 10);
             for (int i = 0; i < cantidadRecursos; i++)
             {
-                int[] spawnPoint = this.PosicionCaminable();
-                Recurso recurso = new Recurso(
-                    spawnPoint[0],
-                    spawnPoint[1],
+                int[] spawnPointMadera = this.PosicionCaminable();
+                Recurso madera = new Recurso(
+                    spawnPointMadera[0],
+                    spawnPointMadera[1],
                     "Madera"
                 );
 
-                this.Recursos.Add(recurso);
+                int[] spawnPointCuerda = this.PosicionCaminable();
+                Recurso cuerda = new Recurso(
+                    spawnPointCuerda[0],
+                    spawnPointCuerda[1],
+                    "Cuerda"
+                );
+
+                this.Recursos.Add(madera);
+                this.Recursos.Add(cuerda);
             }
         }
 
