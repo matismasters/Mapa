@@ -79,7 +79,7 @@ namespace Mapa
 
             // Creo montañas
             this.CrearSuperficie(this.Terreno.GetLength(0) / 7, 2);
-            this.CrearSuperficie(this.Terreno.GetLength(0) / 7, 2);
+            this.CrearSuperficie(this.Terreno.GetLength(0) / 4, 2);
         }
 
         public void CrearSuperficie(int tamano, int tipoTerreno)
@@ -122,7 +122,8 @@ namespace Mapa
 
             int terrenoCasilla = this.Terreno[y, x];
             return terrenoCasilla == 1 || 
-                (terrenoCasilla == 0 && personaje.PuedeFlotar());
+                (terrenoCasilla == 0 && personaje.PuedeFlotar()) ||
+                (terrenoCasilla == 2 && personaje.PuedeTrepar());
         }
 
         private bool AfueraDeTablero(int x, int y)

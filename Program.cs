@@ -11,7 +11,7 @@ while (input != "fin")
     {
         Console.WriteLine("Recurso encontrado: " + recurso.Tipo);
     }
-    Console.WriteLine("Mochila: " + tablero.Personaje.Mochila.Count);
+    Console.WriteLine("Mochila Total: " + tablero.Personaje.Mochila.Count);
     if (tablero.Personaje.PuedeFlotar())
     {
         Console.WriteLine("Puedes flotar!");
@@ -20,6 +20,16 @@ while (input != "fin")
     {
         Console.WriteLine("No puedes flotar!");
     }
+
+    if (tablero.Personaje.PuedeTrepar())
+    {
+        Console.WriteLine("Puedes trepar!");
+    }
+    else
+    {
+        Console.WriteLine("No puedes trepar!");
+    }
+
     Console.WriteLine("Escribe 'fin' para salir. O awsd para moverte. q para levantar recurso");
     input = Console.ReadLine();
     switch (input)

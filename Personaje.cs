@@ -32,7 +32,26 @@ namespace Mapa
 
         public bool PuedeFlotar()
         {
-            return this.Mochila.Count > 5;
+            return this.CantidadRecurso("Madera") >= 5;
+        }
+
+        public bool PuedeTrepar()
+        {
+            return this.CantidadRecurso("Cuerda") >= 3;
+        }
+
+        public int CantidadRecurso(string tipo)
+        {
+            int cantidad = 0;
+            foreach (Recurso recurso in this.Mochila)
+            {
+                if (recurso.Tipo == tipo)
+                {
+                    cantidad += 1;
+                }
+            }
+
+            return cantidad;
         }
     }
 }
